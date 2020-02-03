@@ -101,6 +101,9 @@ document.getElementById("menuBtn").addEventListener("click",function(e) {
     //Show main mode page
     document.getElementById(mode + "MainDiv").style.display = "block";
     //Restore main mode page title
+    if (mode == "roundsMode") { //restore floating button
+      document.getElementById("floatBtnDiv").style.display = "block";
+    }
     document.getElementById("topBarTitle").textContent = modeToTitle[mode];
     //Re-enable bottom bar buttons
     document.getElementById("bottomBar").classList.remove("disabledButton");
@@ -145,6 +148,11 @@ var bottomBarBtnClick = function() {
     }
     for (var i = 0; i < newItems.length; ++i) {
       newItems[i].style.display = "block";
+    }
+    if (mode == "roundsMode") {
+      document.getElementById("floatBtnDiv").style.display = "block";
+    } else {
+      document.getElementById("floatBtnDiv").style.display = "none";
     }
   }
 }
@@ -447,22 +455,29 @@ document.getElementById("logOutBtn").onclick = function(e) {
   startUp();
 };
 
-//logRoundItem click: Take the user to the log round page
-document.getElementById("logRoundItem").onclick = function(e) {
+//logRound -- When the user clicks on the "Log Round" menu item or the "+"
+//floating button, take the user to the log round page.
+function logRound() {
   //Swap pages:
   document.getElementById("roundsModeMainDiv").style.display = "none";
   document.getElementById("logRoundDiv").style.display = "block";
+  //Hide floating button:
+  document.getElementById("floatBtnDiv").style.display = "none";
   //Change page title:
   document.getElementById("topBarTitle").textContent = "Log New Round";
+  //Set label of form button appropriately
+  document.getElementById("submitBtnLabel").textContent = "Save Round Data";
   //Set pageLocked to true, thus indicating that we're on a page that may only
   //be exited by clicking on the left arrow at top left
   pageLocked = true;
   //When pageLocked is true, the menu  icon is the left arrow
   document.getElementById("menuBtnIcon").classList.remove("fa-times");
+  document.getElementById("menuBtnIcon").classList.remove("fa-bars");
   document.getElementById("menuBtnIcon").classList.add("fa-arrow-left");
   //When pageLocked is true, the bottom bar buttons are disabled
   document.getElementById("bottomBar").classList.add("disabledButton");
 }
+
 
 //editRound: Event handler called when "View/Edit" button clicked in "My Rounds"
 //table. roundIndex indicates the index of the round that was clicked. Grab

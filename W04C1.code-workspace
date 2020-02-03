@@ -9,7 +9,7 @@
 			{
 				"pattern": {
 					"type": "string",
-					"expression": "//Potentially clear out the \"My Rounds\" table\r\n    //Note that we aren't deleting from localStorage since we're prepping for\r\n    //new login.\r\n    let roundsTable = document.getElementById(\"myRoundsTable\");\r\n    if (!roundsTable.rows[1].innerHTML.includes (\"colspan\")) {\r\n      //We have a non-empty table and must clear out rows\r\n      while (roundsTable.rows.length > 1) {\r\n        roundsTable.deleteRow(1);\r\n      } \r\n      //Add new row to indicate empty table.\r\n      let newRow = roundsTable.insertRow();\r\n      newRow.innerHTML = \"<td colspan='5' \r\n        style='font-style: italic'>No rounds logged</td>\"; \r\n    }",
+					"expression": "/* The floating action button */\r\n.float{\r\n    position:fixed;\r\n    width:60px;\r\n    height:60px;\r\n    bottom:60px;\r\n    right:40px;\r\n    background-color:#13294E;\r\n    color:white;\r\n    border-radius:50px;\r\n    text-align:center;\r\n    box-shadow: 2px 2px 3px #999;\r\n}\r\n\r\n.my-float{\r\n    margin-top:22px;\r\n}\r\n\r\n.floatButton a:visited {\r\n  color: white !important;\r\n}\r\n\r\n.floatButton a:active {\r\n  color: white !important;\r\n}",
 					"ignoreCase": false,
 					"wholeMatch": false
 				},
@@ -18,7 +18,43 @@
 			{
 				"pattern": {
 					"type": "string",
-					"expression": "//Potentially clear out the \"My Rounds\" table\r\n    //Note that we aren't deleting from localStorage since we're prepping for\r\n    //new login.\r\n    let roundsTable = document.getElementById(\"myRoundsTable\");\r\n    if (!roundsTable.rows[1].innerHTML.includes (\"colspan\")) {\r\n      //We have a non-empty table and must clear out rows\r\n      while (roundsTable.rows.length > 1) {\r\n        roundsTable.deleteRow(1);\r\n      } \r\n      //Add new row to indicate empty table.\r\n      let newRow = roundsTable.insertRow();\r\n      newRow.innerHTML = \"<td colspan='5' style='font-style: italic'>No rounds logged</td>\"; \r\n    }",
+					"expression": "<!-- START FLOATING BUTTON  -->\r\n<div class=\"floatButton\" id=\"floatBtnDiv\" hidden>\r\n  <a class=\"nonMenuItem float\" id=\"floatBtn\" onclick=\"logRound()\">\r\n      <span class=\"my-float fas fa-plus\" id=\"floatBtnIcon\"></span>\r\n  </a>\r\n</div>  \r\n<!-- END FLOATING BUTTON -->",
+					"ignoreCase": false,
+					"wholeMatch": false
+				},
+				"color": "yellow"
+			},
+			{
+				"pattern": {
+					"type": "string",
+					"expression": "//logRound -- When the user clicks on the \"Log Round\" menu item or the \"+\"\r\n//floating button, take the user to the log round page.\r\nfunction logRound() {\r\n  //Swap pages:\r\n  document.getElementById(\"roundsModeMainDiv\").style.display = \"none\";\r\n  document.getElementById(\"logRoundDiv\").style.display = \"block\";\r\n  //Hide floating button:\r\n  document.getElementById(\"floatBtnDiv\").style.display = \"none\";\r\n  //Change page title:\r\n  document.getElementById(\"topBarTitle\").textContent = \"Log New Round\";\r\n  //Set label of form button appropriately\r\n  document.getElementById(\"submitBtnLabel\").textContent = \"Save Round Data\";\r\n  //Set pageLocked to true, thus indicating that we're on a page that may only\r\n  //be exited by clicking on the left arrow at top left\r\n  pageLocked = true;\r\n  //When pageLocked is true, the menu  icon is the left arrow\r\n  document.getElementById(\"menuBtnIcon\").classList.remove(\"fa-times\");\r\n  document.getElementById(\"menuBtnIcon\").classList.remove(\"fa-bars\");\r\n  document.getElementById(\"menuBtnIcon\").classList.add(\"fa-arrow-left\");\r\n  //When pageLocked is true, the bottom bar buttons are disabled\r\n  document.getElementById(\"bottomBar\").classList.add(\"disabledButton\");\r\n}",
+					"ignoreCase": false,
+					"wholeMatch": false
+				},
+				"color": "yellow"
+			},
+			{
+				"pattern": {
+					"type": "string",
+					"expression": " <a id=\"logRoundItem\" class=\"roundsModeItem menuItem modeItem\" \r\n    onclick=\"logRound()\"><span class=\"fas fa-plus\"></span>&nbsp;Log New Round</a> ",
+					"ignoreCase": false,
+					"wholeMatch": false
+				},
+				"color": "yellow"
+			},
+			{
+				"pattern": {
+					"type": "string",
+					"expression": "if (mode == \"roundsMode\") {\r\n      document.getElementById(\"floatBtnDiv\").style.display = \"block\";\r\n    } else {\r\n      document.getElementById(\"floatBtnDiv\").style.display = \"none\";\r\n    }",
+					"ignoreCase": false,
+					"wholeMatch": false
+				},
+				"color": "yellow"
+			},
+			{
+				"pattern": {
+					"type": "string",
+					"expression": "if (mode == \"roundsMode\") { //restore floating button\r\n      document.getElementById(\"floatBtnDiv\").style.display = \"block\";\r\n    }",
 					"ignoreCase": false,
 					"wholeMatch": false
 				},

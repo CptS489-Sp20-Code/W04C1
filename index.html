@@ -79,8 +79,8 @@
   <a class="feedModeItem menuItem modeItem"><span class="fas fa-user-friends"></span>&nbsp;Followed Users</a>
 
   <a id="allRoundsItem" class="roundsModeItem menuItem modeItem"><span class="fas fa-history"></span>&nbsp;All Rounds</a>
-  <a id="logRoundItem" class="roundsModeItem menuItem modeItem"><span class="fas fa-plus"></span>&nbsp;Log New Round</a>
- 
+  <a id="logRoundItem" class="roundsModeItem menuItem modeItem" 
+    onclick="logRound()"><span class="fas fa-plus"></span>&nbsp;Log New Round</a> 
   <a class="coursesModeItem menuItem modeItem" ><span class="fas fa-flag"></span>&nbsp;All Courses</a>
   <a class="coursesModeItem menuItem modeItem"><span class="fas fa-plus"></span>&nbsp;Add
   a Course</a>
@@ -106,6 +106,14 @@ small">Courses</span></a>
 </div>
 <!-- END FIXED BOTTOM BAR-->
  
+<!-- START FLOATING BUTTON  -->
+<div class="floatButton" id="floatBtnDiv" hidden>
+  <a class="nonMenuItem float" id="floatBtn" onclick="logRound()">
+      <span class="my-float fas fa-plus" id="floatBtnIcon"></span>
+  </a>
+</div>  
+<!-- END FLOATING BUTTON -->
+
   <!-- BEGIN APP PAGE DEFINITIONS -->
 
    <div id="loginModeDiv" class="paddedPage">
