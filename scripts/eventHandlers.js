@@ -363,6 +363,52 @@ function addToOrUpdateRoundTable(add, roundIndex) {
    "<span class='fas fa-trash'></span></button></td>";
 }
 
+//confirmDelete: Event handler called when "Delete" button clicked in "My Rounds"
+//table. roundIndex indicates the index of the round tht was clicked. We presenta
+//modal dialog box asking user to confirm the deletion. The confirm button event
+//handler calls on the function deleteRound, which does the deletion.
+function confirmDelete(roundIndex) {
+  //Preserve index of round to delete for deleteRound function
+  localStorage.setItem("pendingDelete",roundIndex); 
+  //Show the modal dialog box
+  document.getElementById("deleteRoundModal").style.display = "block";
+}
+
+//cancelDelete: Event handler called when "No, do not delete" button clicked in
+//the confirm delete modal dialog. In this case, we simply hide the dialog box
+//aclear out the "pendingDelete" local storage item
+function cancelDelete() {
+  localStorage.setItem("pendingDelete","");
+  document.getElementById("deleteRoundModal").style.display = "none";
+}
+
+//deleteRound: Event handler called when "Yes, delete round" button clicked in
+//confirm delete dialog box. We fetch the index of round to delete from local
+//storage and delete the corresponding row from the table and record from the
+//rounds array. We also hide the dialog box.
+function deleteRound() {
+  //Hide modal dialog box
+  document.getElementById("deleteRoundModal").style.display = "none";
+  //Grab user data from localStorage
+  let data = JSON.parse(localStorage.getItem("speedgolfUserData"));
+  let user = localStorage.getItem("userName");
+  let roundIndex = Number(localStorage.getItem("pendingDelete"));
+  let row, roundsTable, newRow;
+  //delete round from rounds associative array and save back to localStorage
+  delete data[user].rounds[roundIndex];
+  localStorage.setItem("speedgolfUserData",JSON.stringify(data));
+  //delete the row from the table
+  row = document.getElementById("r-" + roundIndex);
+  row.parentNode.removeChild(row);
+  //If we're now down to just header row, we need to add a row saying that no
+  //rounds have been added yet
+  roundsTable = document.getElementById("myRoundsTable");
+  if (roundsTable.rows.length == 1) {
+    //Add new row
+    newRow = roundsTable.insertRow();
+    newRow.innerHTML = "<td colspan='5' style='font-style: italic'>No rounds logged</td>"; 
+  }
+}
 
 //MENU BUTTON HANDLERS GO HERE
 
