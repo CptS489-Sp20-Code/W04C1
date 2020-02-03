@@ -54,7 +54,22 @@
     //Set default date in log round input form to today:
     document.getElementById("roundDate").valueAsNumber = 
       Date.now()-(new Date()).getTimezoneOffset()*60000;
-  }
+    
+    //Potentially clear out the "My Rounds" table
+    //Note that we aren't deleting from localStorage since we're prepping for
+    //new login.
+    let roundsTable = document.getElementById("myRoundsTable");
+    if (!roundsTable.rows[1].innerHTML.includes ("colspan")) {
+      //We have a non-empty table and must clear out rows
+      while (roundsTable.rows.length > 1) {
+        roundsTable.deleteRow(1);
+      } 
+      //Add new row to indicate empty table.
+      let newRow = roundsTable.insertRow();
+      newRow.innerHTML = "<td colspan='5' style='font-style: italic'>No rounds logged</td>"; 
+    }
+
+}
 
   //document click: When the user clicks anywhere in the doc and the menu is open
   //we need to close it and toggle menu state variable.

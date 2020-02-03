@@ -9,7 +9,7 @@
 			{
 				"pattern": {
 					"type": "string",
-					"expression": "//confirmDelete: Event handler called when \"Delete\" button clicked in \"My Rounds\"\r\n//table. roundIndex indicates the index of the round tht was clicked. We presenta\r\n//modal dialog box asking user to confirm the deletion. The confirm button event\r\n//handler calls on the function deleteRound, which does the deletion.\r\nfunction confirmDelete(roundIndex) {\r\n  //Preserve index of round to delete for deleteRound function\r\n  localStorage.setItem(\"pendingDelete\",roundIndex); \r\n  //Show the modal dialog box\r\n  document.getElementById(\"deleteRoundModal\").style.display = \"block\";\r\n}",
+					"expression": "//Potentially clear out the \"My Rounds\" table\r\n    //Note that we aren't deleting from localStorage since we're prepping for\r\n    //new login.\r\n    let roundsTable = document.getElementById(\"myRoundsTable\");\r\n    if (!roundsTable.rows[1].innerHTML.includes (\"colspan\")) {\r\n      //We have a non-empty table and must clear out rows\r\n      while (roundsTable.rows.length > 1) {\r\n        roundsTable.deleteRow(1);\r\n      } \r\n      //Add new row to indicate empty table.\r\n      let newRow = roundsTable.insertRow();\r\n      newRow.innerHTML = \"<td colspan='5' \r\n        style='font-style: italic'>No rounds logged</td>\"; \r\n    }",
 					"ignoreCase": false,
 					"wholeMatch": false
 				},
@@ -18,43 +18,7 @@
 			{
 				"pattern": {
 					"type": "string",
-					"expression": "<!-- START CONFIRM DELETE DIALOG BOX DEFINITION-->\r\n<div id=\"deleteRoundModal\" class=\"modal\" role=\"dialog\">\r\n  <!-- Modal content-->\r\n  <div class=\"modal-content\" style=\"background: #fff\">\r\n      <div class=\"modal-header\">\r\n        <p class=\"modal-title\" style=\"text-align: center;\r\n        width:100%\"><b>Confirm Round Deletion</b></p>\r\n          <button onclick=\"cancelDelete()\" \r\n            style=\"border: 2px solid black; \r\n            background-color: black; color: white;\r\n            float: right\">&times;</button>\r\n        </h3></div>\r\n      <div class=\"modal-body\">\r\n        <center>\r\n        <h4>Are you sure that you want to delete this round?</h4>\r\n        </center>\r\n      <div class=\"modal-footer\" style=\"display: flex; justify-content: center;\">\r\n            <button id=\"confirmDelete\" class=\"btn btn-primary\"\r\n            onclick=\"deleteRound()\">\r\n            Yes, delete round</button>\r\n            <button class=\" btn btn-warning\" onclick=\"cancelDelete()\">\r\n            No, do not delete round</button>\r\n      </div>\r\n      </div>\r\n</div>\r\n</div>",
-					"ignoreCase": false,
-					"wholeMatch": false
-				},
-				"color": "yellow"
-			},
-			{
-				"pattern": {
-					"type": "string",
-					"expression": "<!-- START CONFIRM DELETE DIALOG BOX DEFINITION-->\r\n<div id=\"deleteRoundModal\" class=\"modal\" role=\"dialog\">\r\n  <!-- Modal content-->\r\n  <div class=\"modal-content\" style=\"background: #fff\">\r\n      <div class=\"modal-header\">\r\n        <p class=\"modal-title\" style=\"text-align: center;\r\n        width:100%\"><b>Confirm Round Deletion</b></p>\r\n          <button onclick=\"cancelDelete()\" \r\n            style=\"border: 2px solid black; \r\n            background-color: black; color: white;\r\n            float: right\">&times;</button>\r\n        </h3></div>\r\n      <div class=\"modal-body\">\r\n        <center>\r\n        <h4>Are you sure that you want to delete this round?</h4>\r\n        </center>\r\n      <div class=\"modal-footer\" style=\"display: flex; justify-content: center;\">\r\n            <button id=\"confirmDelete\" class=\"btn btn-primary\"\r\n            onclick=\"deleteRound()\">\r\n            Yes, delete round</button>\r\n            <button class=\" btn btn-warning\" onclick=\"cancelDelete()\">\r\n            No, do not delete round</button>\r\n      </div>\r\n      </div>\r\n  </div>\r\n</div>\r\n<!-- END CONFIRM DELETE DIALOG BOX DEFINITION-->",
-					"ignoreCase": false,
-					"wholeMatch": false
-				},
-				"color": "yellow"
-			},
-			{
-				"pattern": {
-					"type": "string",
-					"expression": "//cancelDelete: Event handler called when \"No, do not delete\" button clicked in\r\n//the confirm delete modal dialog. In this case, we simply hide the dialog box\r\n//aclear out the \"pendingDelete\" local storage item\r\nfunction cancelDelete() {\r\n  localStorage.setItem(\"pendingDelete\",\"\");\r\n  document.getElementById(\"deleteRoundModal\").style.display = \"none\";\r\n}",
-					"ignoreCase": false,
-					"wholeMatch": false
-				},
-				"color": "yellow"
-			},
-			{
-				"pattern": {
-					"type": "string",
-					"expression": "//deleteRound: Event handler called when \"Yes, delete round\" button clicked in\r\n//confirm delete dialog box. We fetch the index of round to delete from local\r\n//storage and delete the corresponding row from the table and record from the\r\n//rounds array. We also hide the dialog box.\r\nfunction deleteRound() {\r\n  //Hide modal dialog box\r\n  document.getElementById(\"deleteRoundModal\").style.display = \"none\";\r\n  //Grab user data from localStorage\r\n  let data = JSON.parse(localStorage.getItem(\"speedgolfUserData\"));\r\n  let user = localStorage.getItem(\"userName\");\r\n  let roundIndex = Number(localStorage.getItem(\"pendingDelete\"));\r\n  let row, roundsTable, newRow;\r\n  //delete round from rounds associative array and save back to localStorage\r\n  delete data[user].rounds[roundIndex];\r\n  localStorage.setItem(\"speedgolfUserData\",JSON.stringify(data));\r\n  //delete the row from the table\r\n  row = document.getElementById(\"r-\" + roundIndex);\r\n  row.parentNode.removeChild(row);\r\n  //If we're now down to just header row, we need to add a row saying that no\r\n  //rounds have been added yet\r\n  roundsTable = document.getElementById(\"myRoundsTable\");\r\n  if (roundsTable.rows.length == 1) {\r\n    //Add new row\r\n    newRow = roundsTable.insertRow();\r\n    newRow.innerHTML = \"<td colspan='5' \r\n      style='font-style: italic'>No rounds logged</td>\"; \r\n  }\r\n}",
-					"ignoreCase": false,
-					"wholeMatch": false
-				},
-				"color": "yellow"
-			},
-			{
-				"pattern": {
-					"type": "string",
-					"expression": "//deleteRound: Event handler called when \"Yes, delete round\" button clicked in\r\n//confirm delete dialog box. We fetch the index of round to delete from local\r\n//storage and delete the corresponding row from the table and record from the\r\n//rounds array. We also hide the dialog box.\r\nfunction deleteRound() {\r\n  //Hide modal dialog box\r\n  document.getElementById(\"deleteRoundModal\").style.display = \"none\";\r\n  //Grab user data from localStorage\r\n  let data = JSON.parse(localStorage.getItem(\"speedgolfUserData\"));\r\n  let user = localStorage.getItem(\"userName\");\r\n  let roundIndex = Number(localStorage.getItem(\"pendingDelete\"));\r\n  let row, roundsTable, newRow;\r\n  //delete round from rounds associative array and save back to localStorage\r\n  delete data[user].rounds[roundIndex];\r\n  localStorage.setItem(\"speedgolfUserData\",JSON.stringify(data));\r\n  //delete the row from the table\r\n  row = document.getElementById(\"r-\" + roundIndex);\r\n  row.parentNode.removeChild(row);\r\n  //If we're now down to just header row, we need to add a row saying that no\r\n  //rounds have been added yet\r\n  roundsTable = document.getElementById(\"myRoundsTable\");\r\n  if (roundsTable.rows.length == 1) {\r\n    //Add new row\r\n    newRow = roundsTable.insertRow();\r\n    newRow.innerHTML = \"<td colspan='5' style='font-style: italic'>No rounds logged</td>\"; \r\n  }\r\n}",
+					"expression": "//Potentially clear out the \"My Rounds\" table\r\n    //Note that we aren't deleting from localStorage since we're prepping for\r\n    //new login.\r\n    let roundsTable = document.getElementById(\"myRoundsTable\");\r\n    if (!roundsTable.rows[1].innerHTML.includes (\"colspan\")) {\r\n      //We have a non-empty table and must clear out rows\r\n      while (roundsTable.rows.length > 1) {\r\n        roundsTable.deleteRow(1);\r\n      } \r\n      //Add new row to indicate empty table.\r\n      let newRow = roundsTable.insertRow();\r\n      newRow.innerHTML = \"<td colspan='5' style='font-style: italic'>No rounds logged</td>\"; \r\n    }",
 					"ignoreCase": false,
 					"wholeMatch": false
 				},
